@@ -93,15 +93,17 @@
                                         <i class="bi bi-eye"></i>
                                     </a>
                                     @if(auth()->user()->isAdmin())
-                                        <button type="button" class="btn btn-sm btn-light text-warning rounded-circle shadow-sm edit-invoice-btn" 
+                                        <button type="button" class="btn btn-sm btn-light text-warning rounded-circle shadow-sm edit-invoice-btn"
                                             style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
                                             data-bs-toggle="modal" data-bs-target="#editInvoiceModal"
-                                            data-id="{{ $invoice->id }}"
+                                            data-update-url="{{ route('invoices.update', $invoice) }}"
                                             data-number="{{ $invoice->invoice_number }}"
-                                            data-delivery="{{ $invoice->delivery_id }}"
+                                            data-delivery-id="{{ $invoice->delivery_id }}"
+                                            data-delivery-label="{{ $invoice->delivery?->delivery_number }} • PO {{ $invoice->delivery?->purchaseOrder?->po_number }} • {{ $invoice->delivery?->purchaseOrder?->customer_name }}"
                                             data-date="{{ $invoice->invoice_date?->format('Y-m-d') }}"
                                             data-amount="{{ $invoice->amount }}"
-                                            data-status="{{ $invoice->status }}">
+                                            data-status="{{ $invoice->status }}"
+                                            data-notes="{{ $invoice->notes }}">
                                             <i class="bi bi-pencil"></i>
                                         </button>
                                         <form action="{{ route('invoices.destroy', $invoice) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Invoice ini?')">
@@ -171,6 +173,94 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Invoice Modal -->
+    <div class="modal fade" id="editInvoiceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white py-3">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i> Edit Invoice</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editInvoiceForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body p-4">
+                        <input type="hidden" name="delivery_id" id="edit_delivery_id">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold">Relasi Surat Jalan</label>
+                                <input type="text" class="form-control" id="edit_delivery_label" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">No Invoice <span class="text-danger">*</span></label>
+                                <input type="text" name="invoice_number" id="edit_invoice_number" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Tanggal Invoice <span class="text-danger">*</span></label>
+                                <input type="date" name="invoice_date" id="edit_invoice_date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Jumlah Tagihan (Amount)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">Rp</span>
+                                    <input type="number" name="amount" id="edit_amount" class="form-control" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+                                <select name="status" id="edit_status" class="form-select" required>
+                                    <option value="issued">ISSUED</option>
+                                    <option value="paid">PAID</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Catatan</label>
+                                <textarea name="notes" id="edit_notes" class="form-control" rows="2" placeholder="Informasi tambahan penagihan"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Upload Dokumen Invoice</label>
+                                <input type="file" name="document" class="form-control">
+                                <div class="form-text">PDF, JPG, atau PNG (Maks 10MB)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light border-0 py-3">
+                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary px-4">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editForm = document.getElementById('editInvoiceForm');
+            const editButtons = document.querySelectorAll('.edit-invoice-btn');
+
+            const deliveryIdInput = document.getElementById('edit_delivery_id');
+            const deliveryLabelInput = document.getElementById('edit_delivery_label');
+            const numberInput = document.getElementById('edit_invoice_number');
+            const dateInput = document.getElementById('edit_invoice_date');
+            const amountInput = document.getElementById('edit_amount');
+            const statusSelect = document.getElementById('edit_status');
+            const notesInput = document.getElementById('edit_notes');
+
+            editButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    editForm.action = this.dataset.updateUrl;
+                    deliveryIdInput.value = this.dataset.deliveryId || '';
+                    deliveryLabelInput.value = this.dataset.deliveryLabel || '';
+                    numberInput.value = this.dataset.number || '';
+                    dateInput.value = this.dataset.date || '';
+                    amountInput.value = this.dataset.amount || 0;
+                    statusSelect.value = this.dataset.status || 'issued';
+                    notesInput.value = this.dataset.notes || '';
+                });
+            });
+        });
+    </script>
 
     <!-- Create Invoice Modal -->
     <div class="modal fade" id="createInvoiceModal" tabindex="-1" aria-hidden="true">

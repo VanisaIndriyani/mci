@@ -126,7 +126,9 @@ class DeliveryController extends Controller
             return $delivery;
         });
 
-        return redirect()->route('deliveries.show', $delivery);
+        return redirect()
+            ->route('deliveries.show', $delivery)
+            ->with('success', 'Data pengiriman berhasil ditambahkan.');
     }
 
     /**
@@ -173,7 +175,9 @@ class DeliveryController extends Controller
             $this->attachDocumentIfAny($request, $delivery);
         });
 
-        return redirect()->route('deliveries.show', $delivery);
+        return redirect()
+            ->route('deliveries.show', $delivery)
+            ->with('success', 'Data pengiriman berhasil diperbarui.');
     }
 
     /**

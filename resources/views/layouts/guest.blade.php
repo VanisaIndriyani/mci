@@ -8,10 +8,32 @@
         <title>{{ config('app.name', 'MCI System') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            :root {
+                --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+                --mci-blue: #0d6efd;
+                --mci-accent: #7c3aed;
+                --guest-bg: radial-gradient(900px circle at 15% 0%, rgba(13, 110, 253, 0.12) 0%, rgba(13, 110, 253, 0) 55%),
+                            radial-gradient(900px circle at 85% 15%, rgba(124, 58, 237, 0.10) 0%, rgba(124, 58, 237, 0) 55%),
+                            #f4f7fe;
+            }
+            body {
+                font-family: var(--font-sans);
+                font-size: 0.95rem;
+                line-height: 1.45;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                background: var(--guest-bg);
+                background-attachment: fixed;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                letter-spacing: -0.02em;
+            }
+        </style>
     </head>
-    <body style="font-family: Figtree, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;" class="bg-white">
+    <body>
         {{ $slot }}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

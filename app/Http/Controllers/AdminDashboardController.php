@@ -23,6 +23,9 @@ class AdminDashboardController extends Controller
 
         $completedPoCount = PurchaseOrder::query()
             ->where('status', 'selesai')
+            ->orWhereHas('deliveries.invoice', function ($q) {
+                $q->where('status', 'paid');
+            })
             ->count();
             
         $totalPoCount = PurchaseOrder::query()->count();

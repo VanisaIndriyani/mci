@@ -78,13 +78,13 @@
                             <h6 class="fw-bold text-dark mb-3"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Aksi Cepat</h6>
                             <div class="d-flex gap-2 flex-wrap">
                                 <a href="{{ route('purchase-orders.index') }}" class="btn btn-primary-subtle text-primary fw-bold px-3 py-2 rounded-3 border-0">
-                                    <i class="bi bi-file-earmark-plus me-1"></i> Buat PO
+                                    <i class="bi bi-file-earmark-plus me-1"></i> Purchase Order
                                 </a>
                                 <a href="{{ route('deliveries.index') }}" class="btn btn-info-subtle text-info fw-bold px-3 py-2 rounded-3 border-0">
-                                    <i class="bi bi-truck me-1"></i> Input SJ
+                                    <i class="bi bi-truck me-1"></i> Surat Jalan
                                 </a>
                                 <a href="{{ route('invoices.index') }}" class="btn btn-success-subtle text-success fw-bold px-3 py-2 rounded-3 border-0">
-                                    <i class="bi bi-receipt me-1"></i> Tagihan
+                                    <i class="bi bi-receipt me-1"></i> Invoice
                                 </a>
                             </div>
                         </div>

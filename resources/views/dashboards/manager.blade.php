@@ -16,9 +16,9 @@
                         </option>
                     @endforeach
                 </select>
-                <div class="bg-white rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                <a href="{{ route('profile.edit') }}" class="bg-white rounded-circle shadow-sm d-flex align-items-center justify-content-center text-decoration-none" style="width: 38px; height: 38px;" aria-label="Profil" title="Profil">
                     <i class="bi bi-person-circle text-muted fs-5"></i>
-                </div>
+                </a>
             </form>
         </div>
     </x-slot>

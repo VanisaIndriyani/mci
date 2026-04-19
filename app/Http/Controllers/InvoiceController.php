@@ -127,7 +127,8 @@ class InvoiceController extends Controller
                 'created_by' => $userId,
             ]);
 
-            $invoice->delivery->purchaseOrder()->update(['status' => 'ditagih']);
+            $poStatus = ($validated['status'] ?? 'issued') === 'paid' ? 'selesai' : 'ditagih';
+            $invoice->delivery->purchaseOrder()->update(['status' => $poStatus]);
 
             $this->attachDocumentIfAny($request, $invoice);
 
@@ -180,6 +181,9 @@ class InvoiceController extends Controller
         DB::transaction(function () use ($request, $invoice, $validated) {
             $invoice->update(collect($validated)->except('document')->all());
             $this->attachDocumentIfAny($request, $invoice);
+
+            $poStatus = ($validated['status'] ?? $invoice->status) === 'paid' ? 'selesai' : 'ditagih';
+            $invoice->delivery?->purchaseOrder()?->update(['status' => $poStatus]);
         });
 
         return redirect()->route('invoices.show', $invoice);

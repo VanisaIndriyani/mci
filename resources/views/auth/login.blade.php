@@ -3,9 +3,9 @@
         <div class="card border-0 shadow-aesthetic overflow-hidden rounded-4" style="max-width: 850px; width: 100%;">
             <div class="row g-0">
                 <!-- Left Side: Premium Branding -->
-                <div class="col-lg-5 bg-white d-flex flex-column align-items-center justify-content-center p-4 p-lg-5 text-center border-end position-relative overflow-hidden">
+                <div class="col-lg-5 bg-brand d-flex flex-column align-items-center justify-content-center p-4 p-lg-5 text-center border-end position-relative overflow-hidden">
                     <!-- Subtle Background Decoration -->
-                    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-5 pointer-events-none" style="background-image: radial-gradient(#0d6efd 1px, transparent 1px); background-size: 20px 20px;"></div>
+                    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-5 pointer-events-none" style="background-image: radial-gradient(var(--mci-blue) 1px, transparent 1px); background-size: 20px 20px;"></div>
                     
                     <div class="position-relative z-1">
                         <div class="mb-4">
@@ -100,8 +100,13 @@
 
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
-            --aesthetic-bg: radial-gradient(circle at top right, #f8f9ff 0%, #e9ecef 100%);
+            --mci-blue: #0d6efd;
+            --mci-accent: #7c3aed;
+            --primary-gradient: linear-gradient(135deg, var(--mci-blue) 0%, var(--mci-accent) 100%);
+            --aesthetic-bg:
+                radial-gradient(900px circle at 15% 0%, rgba(13, 110, 253, 0.12) 0%, rgba(13, 110, 253, 0) 55%),
+                radial-gradient(900px circle at 85% 15%, rgba(124, 58, 237, 0.10) 0%, rgba(124, 58, 237, 0) 55%),
+                #f4f7fe;
         }
 
         .bg-aesthetic {
@@ -114,6 +119,9 @@
         }
 
         .tracking-tight { letter-spacing: -0.02em; }
+        .bg-brand {
+            background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,250,255,0.95) 100%);
+        }
         
         /* Custom Input Styling */
         .input-group-aesthetic {
@@ -129,7 +137,7 @@
 
         .input-group-aesthetic:focus-within {
             background: #fff;
-            border-color: #0d6efd;
+            border-color: var(--mci-blue);
             box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
         }
 
@@ -157,7 +165,7 @@
             transition: color 0.2s;
         }
 
-        .btn-toggle-pw:hover { color: #0d6efd; }
+        .btn-toggle-pw:hover { color: var(--mci-blue); }
 
         /* Button Styling */
         .btn-aesthetic {
@@ -194,9 +202,9 @@
         }
 
         .demo-pill:hover {
-            border-color: #0d6efd;
+            border-color: var(--mci-blue);
             background: #f8f9ff;
-            color: #0d6efd;
+            color: var(--mci-blue);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(13, 110, 253, 0.1);
         }

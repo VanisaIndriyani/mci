@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SettingSeeder::class,
+            BusinessFlowSeeder::class,
         ]);
 
         User::query()->updateOrCreate(

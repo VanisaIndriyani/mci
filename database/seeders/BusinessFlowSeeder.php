@@ -17,70 +17,116 @@ class BusinessFlowSeeder extends Seeder
     public function run(): void
     {
         $admin = User::where('role', 'admin')->first() ?? User::factory()->create(['role' => 'admin']);
-        
-        $data = [
-            [
-                'customer' => 'PT. Toyota Motor Manufacturing',
-                'products' => ['Jig Welding Frame', 'Special Purpose Machine Alpha', 'Mechanical Joint Type A'],
-            ],
-            [
-                'customer' => 'PT. Astra Honda Motor',
-                'products' => ['Conveyor System v2', 'Bracket Support Engine', 'Base Plate Precision'],
-            ],
-            [
-                'customer' => 'PT. Denso Indonesia',
-                'products' => ['Clamping Tool Set', 'Robot Arm Extension', 'Cooling System Unit'],
-            ],
-            [
-                'customer' => 'PT. Mitsubishi Motors',
-                'products' => ['Press Tool Module', 'Shaft Drive Gear', 'Sensor Housing Case'],
-            ],
-            [
-                'customer' => 'PT. Suzuki Indomobil',
-                'products' => ['Pallet Handler', 'Casting Mold B1', 'Pneumatic Control Box'],
-            ],
+
+        $year = 2025;
+        $targetCount = 30;
+
+        if (PurchaseOrder::query()->whereYear('po_date', $year)->count() >= 20) {
+            return;
+        }
+
+        $customers = [
+            'PT. Toyota Motor Manufacturing',
+            'PT. Astra Honda Motor',
+            'PT. Denso Indonesia',
+            'PT. Mitsubishi Motors',
+            'PT. Suzuki Indomobil',
+            'PT. Komatsu Indonesia',
+            'PT. Daihatsu Motor',
+            'PT. Panasonic Manufacturing',
+            'PT. Schneider Electric',
+            'PT. Unilever Indonesia',
         ];
 
-        foreach ($data as $index => $item) {
-            $month = $index + 1;
-            $poDate = Carbon::create(2025, $month, 10);
-            $qty = ($index + 1) * 10;
-            $unitPrice = 1500000 + ($index * 500000);
+        $products = [
+            'Jig Welding Frame',
+            'Special Purpose Machine Alpha',
+            'Mechanical Joint Type A',
+            'Conveyor System v2',
+            'Bracket Support Engine',
+            'Base Plate Precision',
+            'Clamping Tool Set',
+            'Robot Arm Extension',
+            'Cooling System Unit',
+            'Press Tool Module',
+            'Shaft Drive Gear',
+            'Sensor Housing Case',
+            'Pallet Handler',
+            'Casting Mold B1',
+            'Pneumatic Control Box',
+            'Fixture Assembly Line',
+            'Inspection Gauge Set',
+            'Hydraulic Press Adapter',
+        ];
+
+        $existingMaxId = (int) (PurchaseOrder::query()->max('id') ?? 0);
+
+        for ($i = 0; $i < $targetCount; $i++) {
+            $seq = $existingMaxId + $i + 1;
+            $month = (($i % 12) + 1);
+            $day = min(25, 2 + (($i * 3) % 24));
+
+            $poDate = Carbon::create($year, $month, $day);
+            $qty = 5 + (($i * 7) % 60);
+            $unitPrice = 750000 + (($i * 175000) % 2250000);
             $totalAmount = $qty * $unitPrice;
 
-            // 1. Create Purchase Order
+            $stageRoll = $i % 10;
+            $stage = match (true) {
+                $stageRoll <= 2 => 'po_only',
+                $stageRoll <= 4 => 'delivered',
+                $stageRoll <= 7 => 'invoiced_issued',
+                default => 'invoiced_paid',
+            };
+
+            $poStatus = match ($stage) {
+                'po_only' => 'diproses',
+                'delivered' => 'dikirim',
+                'invoiced_issued' => 'ditagih',
+                'invoiced_paid' => 'selesai',
+            };
+
             $po = PurchaseOrder::create([
-                'po_number' => 'PO/MCI/2025/' . str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+                'po_number' => 'PO/MCI/'.$year.'/' . str_pad($seq, 4, '0', STR_PAD_LEFT),
                 'po_date' => $poDate,
-                'customer_name' => $item['customer'],
-                'product_name' => $item['products'][array_rand($item['products'])],
+                'customer_name' => $customers[$seq % count($customers)],
+                'product_name' => $products[$seq % count($products)],
                 'quantity' => $qty,
                 'unit' => 'Pcs',
                 'unit_price' => $unitPrice,
                 'total_amount' => $totalAmount,
-                'status' => $index < 3 ? 'selesai' : 'dikirim',
+                'status' => $poStatus,
                 'created_by' => $admin->id,
             ]);
 
-            // 2. Create Delivery (Surat Jalan)
-            $deliveryDate = $poDate->copy()->addDays(5);
+            if ($stage === 'po_only') {
+                continue;
+            }
+
+            $deliveryDate = $poDate->copy()->addDays(2 + ($i % 9));
             $delivery = Delivery::create([
                 'purchase_order_id' => $po->id,
-                'delivery_number' => 'SJ/MCI/2025/' . str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+                'delivery_number' => 'SJ/MCI/'.$year.'/' . str_pad($seq, 4, '0', STR_PAD_LEFT),
                 'delivery_date' => $deliveryDate,
+                'shipped_quantity' => min($qty, max(1, $qty - ($i % 3))),
                 'notes' => 'Pengiriman barang sesuai PO',
                 'created_by' => $admin->id,
             ]);
 
-            // 3. Create Invoice (Penagihan)
-            $invoiceDate = $deliveryDate->copy()->addDays(3);
+            if ($stage === 'delivered') {
+                continue;
+            }
+
+            $invoiceDate = $deliveryDate->copy()->addDays(1 + ($i % 7));
+            $invoiceStatus = $stage === 'invoiced_paid' ? 'paid' : 'issued';
+
             Invoice::create([
                 'delivery_id' => $delivery->id,
-                'invoice_number' => 'INV/MCI/2025/' . str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+                'invoice_number' => 'INV/MCI/'.$year.'/' . str_pad($seq, 4, '0', STR_PAD_LEFT),
                 'invoice_date' => $invoiceDate,
                 'amount' => $totalAmount,
-                'status' => $index < 2 ? 'paid' : 'issued',
-                'notes' => 'Penagihan tahap 1',
+                'status' => $invoiceStatus,
+                'notes' => 'Penagihan otomatis (dummy)',
                 'created_by' => $admin->id,
             ]);
         }

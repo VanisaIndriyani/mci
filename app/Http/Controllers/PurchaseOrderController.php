@@ -108,7 +108,9 @@ class PurchaseOrderController extends Controller
             return $purchaseOrder;
         });
 
-        return redirect()->route('purchase-orders.show', $purchaseOrder);
+        return redirect()
+            ->route('purchase-orders.show', $purchaseOrder)
+            ->with('success', 'Data PO berhasil ditambahkan.');
     }
 
     /**
@@ -163,7 +165,9 @@ class PurchaseOrderController extends Controller
             $this->attachDocumentIfAny($request, $purchaseOrder, 'po');
         });
 
-        return redirect()->route('purchase-orders.show', $purchaseOrder);
+        return redirect()
+            ->route('purchase-orders.show', $purchaseOrder)
+            ->with('success', 'Data PO berhasil diperbarui.');
     }
 
     /**

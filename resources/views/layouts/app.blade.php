@@ -8,7 +8,7 @@
         <title>{{ config('app.name', 'MCI System') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -18,12 +18,26 @@
                 --sidebar-width: 280px;
                 --mci-blue: #0d6efd;
                 --mci-blue-dark: #0a58ca;
+                --mci-accent: #7c3aed;
+                --mci-accent-dark: #6d28d9;
                 --sidebar-bg: #ffffff;
                 --body-bg: #f4f7fe;
+                --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
             }
             body {
-                background-color: var(--body-bg);
+                background:
+                    radial-gradient(950px circle at 12% 0%, rgba(13, 110, 253, 0.16) 0%, rgba(13, 110, 253, 0) 58%),
+                    radial-gradient(950px circle at 88% 12%, rgba(124, 58, 237, 0.14) 0%, rgba(124, 58, 237, 0) 58%),
+                    var(--body-bg);
                 overflow-x: hidden;
+                font-family: var(--font-sans);
+                font-size: 0.95rem;
+                line-height: 1.45;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                letter-spacing: -0.02em;
             }
             #wrapper {
                 display: flex;
@@ -32,14 +46,17 @@
             #sidebar-wrapper {
                 width: var(--sidebar-width);
                 height: 100vh;
-                background: var(--sidebar-bg);
-                border-right: 1px solid rgba(0,0,0,0.05);
+                background:
+                    radial-gradient(700px circle at 20% 0%, rgba(13, 110, 253, 0.20) 0%, rgba(13, 110, 253, 0) 62%),
+                    radial-gradient(700px circle at 85% 18%, rgba(124, 58, 237, 0.16) 0%, rgba(124, 58, 237, 0) 62%),
+                    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+                border-right: 1px solid rgba(255,255,255,0.08);
                 position: fixed;
                 left: 0;
                 top: 0;
                 z-index: 1030;
                 transition: all 0.3s ease;
-                box-shadow: 10px 0 30px rgba(0,0,0,0.02);
+                box-shadow: 14px 0 38px rgba(2, 6, 23, 0.18);
                 overflow-y: auto;
             }
             #page-content-wrapper {
@@ -77,6 +94,18 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
+                position: relative;
+            }
+            .sidebar-heading::after {
+                content: "";
+                position: absolute;
+                left: 50%;
+                bottom: 12px;
+                transform: translateX(-50%);
+                width: 64px;
+                height: 4px;
+                border-radius: 999px;
+                background: linear-gradient(90deg, rgba(13, 110, 253, 0.95), rgba(124, 58, 237, 0.85));
             }
             
             .sidebar-nav {
@@ -87,7 +116,8 @@
                 padding: 0.9rem 1.25rem;
                 border: none;
                 font-weight: 500;
-                color: #6c757d;
+                color: rgba(255,255,255,0.78);
+                background: transparent;
                 display: flex;
                 align-items: center;
                 gap: 15px;
@@ -97,21 +127,39 @@
             }
             .list-group-item i {
                 font-size: 1.25rem;
+                color: rgba(255,255,255,0.86);
                 transition: transform 0.2s ease;
             }
             .list-group-item:hover {
-                background-color: #f8faff;
-                color: var(--mci-blue);
+                background-color: rgba(255,255,255,0.10);
+                color: rgba(255,255,255,0.95);
                 transform: translateX(5px);
             }
+            .list-group-item:hover i {
+                color: rgba(255,255,255,0.95);
+            }
             .list-group-item.active {
-                background-color: var(--mci-blue) !important;
+                background: linear-gradient(135deg, var(--mci-blue) 0%, var(--mci-accent) 100%) !important;
                 color: white !important;
-                box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+                box-shadow: 0 10px 20px rgba(13, 110, 253, 0.18), 0 8px 18px rgba(124, 58, 237, 0.12);
+            }
+            .list-group-item.active i {
+                color: #fff;
+            }
+
+            #sidebar-wrapper .text-muted {
+                color: rgba(255,255,255,0.65) !important;
+            }
+            #sidebar-wrapper .text-primary {
+                color: rgba(255,255,255,0.95) !important;
+            }
+            #sidebar-wrapper .dropdown-toggle {
+                color: rgba(255,255,255,0.95) !important;
             }
             
             .top-navbar {
                 background: rgba(255, 255, 255, 0.8);
+                background-image: linear-gradient(90deg, rgba(13, 110, 253, 0.06), rgba(124, 58, 237, 0.04));
                 backdrop-filter: blur(10px);
                 border-bottom: 1px solid rgba(0,0,0,0.05);
                 padding: 0.8rem 2rem;
@@ -124,6 +172,8 @@
                 border: none;
                 border-radius: 16px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(10px);
             }
             
             .main-content {
@@ -165,6 +215,13 @@
             ::-webkit-scrollbar-thumb:hover {
                 background: #adb5bd;
             }
+
+            #sidebar-wrapper::-webkit-scrollbar-thumb {
+                background: rgba(255,255,255,0.18);
+            }
+            #sidebar-wrapper::-webkit-scrollbar-thumb:hover {
+                background: rgba(255,255,255,0.28);
+            }
         </style>
     </head>
     <body>
@@ -187,7 +244,7 @@
                             <i class="bi bi-file-earmark-text-fill"></i> Data PO
                         </a>
                         <a href="{{ route('deliveries.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('deliveries.*') ? 'active' : '' }}">
-                            <i class="bi bi-truck-flatbed"></i> Surat Jalan
+                            <i class="bi bi-truck-flatbed"></i> Data Pengiriman
                         </a>
                         <a href="{{ route('invoices.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('invoices.*') ? 'active' : '' }}">
                             <i class="bi bi-receipt-cutoff"></i> Data Penagihan
@@ -329,6 +386,32 @@
                         });
                     }
                 });
+
+                const toastSuccess = @json(session('success'));
+                if (toastSuccess) {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: toastSuccess,
+                        showConfirmButton: false,
+                        timer: 2200,
+                        timerProgressBar: true,
+                    });
+                }
+
+                const toastError = @json(session('error'));
+                if (toastError) {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'error',
+                        title: toastError,
+                        showConfirmButton: false,
+                        timer: 2600,
+                        timerProgressBar: true,
+                    });
+                }
             });
         </script>
     </body>
