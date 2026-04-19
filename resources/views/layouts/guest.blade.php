@@ -8,11 +8,13 @@
         <title>{{ config('app.name', 'MCI System') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=playfair-display:400,500,600,700&display=swap" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <style>
             :root {
-                --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+                --font-sans: "Playfair Display", Georgia, "Times New Roman", serif;
+                --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
                 --mci-blue: #0d6efd;
                 --mci-accent: #7c3aed;
                 --guest-bg: radial-gradient(900px circle at 15% 0%, rgba(13, 110, 253, 0.12) 0%, rgba(13, 110, 253, 0) 55%),
@@ -30,6 +32,7 @@
             }
             h1, h2, h3, h4, h5, h6 {
                 letter-spacing: -0.02em;
+                font-family: var(--font-display);
             }
         </style>
     </head>
