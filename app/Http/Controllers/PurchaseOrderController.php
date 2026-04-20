@@ -27,7 +27,19 @@ class PurchaseOrderController extends Controller
             });
         }
 
-        $purchaseOrders = $query->latest()->paginate(15);
+        if ($request->filled('date_from')) {
+            $query->whereDate('po_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('po_date', '<=', $request->date_to);
+        }
+
+        if ($request->filled('status') && in_array($request->status, ['diproses', 'dikirim', 'ditagih', 'selesai'], true)) {
+            $query->where('status', $request->status);
+        }
+
+        $purchaseOrders = $query->latest()->paginate(15)->withQueryString();
 
         return view('purchase_orders.index', [
             'purchaseOrders' => $purchaseOrders,

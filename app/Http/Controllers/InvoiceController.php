@@ -32,7 +32,19 @@ class InvoiceController extends Controller
             });
         }
 
-        $invoices = $query->latest()->paginate(15);
+        if ($request->filled('date_from')) {
+            $query->whereDate('invoice_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('invoice_date', '<=', $request->date_to);
+        }
+
+        if ($request->filled('status') && in_array($request->status, ['issued', 'paid'], true)) {
+            $query->where('status', $request->status);
+        }
+
+        $invoices = $query->latest()->paginate(15)->withQueryString();
 
         $deliveries = Delivery::query()
             ->with('purchaseOrder')

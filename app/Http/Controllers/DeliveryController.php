@@ -29,7 +29,24 @@ class DeliveryController extends Controller
             });
         }
 
-        $deliveries = $query->latest()->paginate(15);
+        if ($request->filled('date_from')) {
+            $query->whereDate('delivery_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('delivery_date', '<=', $request->date_to);
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'belum_ditagih') {
+                $query->whereDoesntHave('invoice');
+            }
+            if ($request->status === 'sudah_ditagih') {
+                $query->whereHas('invoice');
+            }
+        }
+
+        $deliveries = $query->latest()->paginate(15)->withQueryString();
         $purchaseOrders = PurchaseOrder::query()
             ->whereDoesntHave('deliveries')
             ->orderByDesc('id')

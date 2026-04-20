@@ -124,21 +124,21 @@
                             <div class="d-flex align-items-center justify-content-between p-2">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">1</div>
-                                    <span class="small fw-semibold text-muted">PO Masih Diproses</span>
+                                    <span class="small fw-semibold text-muted">Outstanding (In Process)</span>
                                 </div>
                                 <span class="fw-bold text-dark">{{ $monitoring['diproses'] }}</span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between p-2">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">2</div>
-                                    <span class="small fw-semibold text-muted">Sedang Dikirim</span>
+                                    <span class="small fw-semibold text-muted">On Delivery</span>
                                 </div>
                                 <span class="fw-bold text-dark">{{ $monitoring['dikirim'] }}</span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between p-2">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">3</div>
-                                    <span class="small fw-semibold text-muted">Sudah Ditagih</span>
+                                    <span class="small fw-semibold text-muted">Invoiced / Completed</span>
                                 </div>
                                 <span class="fw-bold text-dark">{{ $monitoring['ditagih'] }}</span>
                             </div>

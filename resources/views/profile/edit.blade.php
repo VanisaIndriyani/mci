@@ -11,9 +11,13 @@
             <div class="card border-0 shadow-sm text-center p-4 h-100">
                 <div class="card-body">
                     <div class="mb-4 d-inline-block position-relative">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-lg" style="width: 100px; height: 100px; font-size: 2.5rem;">
-                            {{ strtoupper(substr($user->name, 0, 1)) }}
-                        </div>
+                        @if($user->profile_photo_path)
+                            <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Foto Profil" class="rounded-circle shadow-lg" style="width: 100px; height: 100px; object-fit: cover;">
+                        @else
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-lg" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                                {{ strtoupper(substr($user->name, 0, 1)) }}
+                            </div>
+                        @endif
                         <span class="position-absolute bottom-0 end-0 bg-success border border-white border-2 rounded-circle p-2" title="Online"></span>
                     </div>
                     <h4 class="fw-bold mb-1 text-dark">{{ $user->name }}</h4>
@@ -67,7 +71,7 @@
                             <h6 class="fw-bold mb-3">Informasi Akun</h6>
                             <p class="text-muted small mb-4">Perbarui informasi profil dan alamat email akun Anda.</p>
                             
-                            <form method="post" action="{{ route('profile.update') }}" class="row g-3">
+                            <form method="post" action="{{ route('profile.update') }}" class="row g-3" enctype="multipart/form-data">
                                 @csrf
                                 @method('patch')
                                 
@@ -82,6 +86,22 @@
                                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" required>
                                     @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label fw-semibold small">Foto Profil</label>
+                                    <input type="file" name="profile_photo" class="form-control @error('profile_photo') is-invalid @enderror" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                                    @error('profile_photo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                    <div class="form-text">JPG, PNG, WEBP (maks 5MB)</div>
+                                </div>
+
+                                @if($user->profile_photo_path)
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="1" id="remove_profile_photo" name="remove_profile_photo">
+                                            <label class="form-check-label small text-muted" for="remove_profile_photo">Hapus foto profil</label>
+                                        </div>
+                                    </div>
+                                @endif
                                 
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary px-4 shadow-sm">

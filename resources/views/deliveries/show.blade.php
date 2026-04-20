@@ -63,11 +63,11 @@
                             </a>
                         </div>
                         <div class="col-md-4 col-6">
-                            <div class="text-muted small mb-1">Status Penagihan</div>
+                            <div class="text-muted small mb-1">Billing Status</div>
                             @if($delivery->invoice)
-                                <span class="badge bg-success-subtle text-success rounded-pill px-3" style="font-size: 0.65rem;">TERTAGIH</span>
+                                <span class="badge bg-success-subtle text-success rounded-pill px-3" style="font-size: 0.65rem;">INVOICED • {{ strtoupper($delivery->invoice?->status) }}</span>
                             @else
-                                <span class="badge bg-danger-subtle text-danger rounded-pill px-3" style="font-size: 0.65rem;">BELUM DITAGIH</span>
+                                <span class="badge bg-danger-subtle text-danger rounded-pill px-3" style="font-size: 0.65rem;">NOT INVOICED</span>
                             @endif
                         </div>
                     </div>

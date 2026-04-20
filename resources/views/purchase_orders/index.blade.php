@@ -27,7 +27,7 @@
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body p-3">
             <form action="{{ route('purchase-orders.index') }}" method="GET" class="row g-2">
-                <div class="col-md-10">
+                <div class="col-lg-4 col-md-12">
                     <div class="input-group">
                         <span class="input-group-text bg-white border-end-0 text-muted">
                             <i class="bi bi-search"></i>
@@ -35,8 +35,23 @@
                         <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Cari No PO, Customer, atau Produk..." value="{{ request('search') }}">
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100 shadow-sm">Cari</button>
+                <div class="col-lg-2 col-md-6">
+                    <input type="date" name="date_from" class="form-control" value="{{ request('date_from') }}" placeholder="Dari">
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}" placeholder="Sampai">
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <select name="status" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="diproses" @selected(request('status') === 'diproses')>Outstanding</option>
+                        <option value="dikirim" @selected(request('status') === 'dikirim')>On Delivery</option>
+                        <option value="ditagih" @selected(request('status') === 'ditagih')>Invoiced</option>
+                        <option value="selesai" @selected(request('status') === 'selesai')>Completed</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <button type="submit" class="btn btn-primary w-100 shadow-sm">Filter</button>
                 </div>
             </form>
         </div>

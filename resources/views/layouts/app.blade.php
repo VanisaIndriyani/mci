@@ -298,9 +298,13 @@
                             <div class="vr mx-2 d-none d-md-block" style="height: 20px; opacity: 0.1;"></div>
                             <div class="dropdown">
                                 <a class="text-decoration-none dropdown-toggle text-dark fw-semibold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
-                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                                    </div>
+                                    @if(auth()->user()->profile_photo_path)
+                                        <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" alt="Foto Profil" class="rounded-circle shadow-sm" style="width: 32px; height: 32px; object-fit: cover;">
+                                    @else
+                                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-3 p-2" style="min-width: 200px; border-radius: 12px;">

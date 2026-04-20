@@ -81,7 +81,7 @@
                             <div class="fw-semibold text-dark">IDR {{ number_format($purchaseOrder->unit_price, 0, ',', '.') }}</div>
                         </div>
                         <div class="col-md-3 col-6">
-                            <div class="text-muted small mb-1">Status PO</div>
+                            <div class="text-muted small mb-1">PO Status</div>
                             @php
                                 $badgeClass = match($purchaseOrder->status) {
                                     'diproses' => 'bg-secondary-subtle text-secondary',
@@ -149,7 +149,7 @@
                                                 @if($delivery->invoice)
                                                     <span class="badge bg-success-subtle text-success rounded-pill px-3" style="font-size: 0.65rem;">TERTAGIH</span>
                                                 @else
-                                                    <span class="badge bg-danger-subtle text-danger rounded-pill px-3" style="font-size: 0.65rem;">BELUM TAGIH</span>
+                                        <span class="badge bg-danger-subtle text-danger rounded-pill px-3" style="font-size: 0.65rem;">NOT INVOICED</span>
                                                 @endif
                                             </td>
                                             <td class="pe-4 text-end">

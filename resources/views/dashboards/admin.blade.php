@@ -41,7 +41,7 @@
                 <div class="card-body p-4 position-relative">
                     <div class="text-muted small fw-bold text-uppercase mb-1" style="font-size: 0.65rem; letter-spacing: 1px;">Outstanding PO</div>
                     <div class="h3 fw-bold text-dark mb-0">{{ $outstandingPo }}</div>
-                    <div class="text-warning small mt-2 fw-bold">Menunggu Pengiriman</div>
+                    <div class="text-warning small mt-2 fw-bold">Awaiting Delivery</div>
                     <i class="bi bi-clock-history position-absolute end-0 bottom-0 mb-n2 me-n2 opacity-10 text-warning" style="font-size: 4rem;"></i>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 <div class="card-body p-4 position-relative">
                     <div class="text-muted small fw-bold text-uppercase mb-1" style="font-size: 0.65rem; letter-spacing: 1px;">In Delivery</div>
                     <div class="h3 fw-bold text-dark mb-0">{{ $inDelivery }}</div>
-                    <div class="text-info small mt-2 fw-bold">Menunggu Penagihan</div>
+                    <div class="text-info small mt-2 fw-bold">Awaiting Invoice</div>
                     <i class="bi bi-truck position-absolute end-0 bottom-0 mb-n2 me-n2 opacity-10 text-info" style="font-size: 4rem;"></i>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 <div class="card-body p-4 position-relative">
                     <div class="text-muted small fw-bold text-uppercase mb-1" style="font-size: 0.65rem; letter-spacing: 1px;">Completed PO</div>
                     <div class="h3 fw-bold text-dark mb-0">{{ $completedPo }}</div>
-                    <div class="text-success small mt-2 fw-bold">Selesai / Terbayar</div>
+                    <div class="text-success small mt-2 fw-bold">Completed / Paid</div>
                     <i class="bi bi-check-circle position-absolute end-0 bottom-0 mb-n2 me-n2 opacity-10 text-success" style="font-size: 4rem;"></i>
                 </div>
             </div>
@@ -76,16 +76,42 @@
                     <div class="row align-items-center">
                         <div class="col-md-4">
                             <h6 class="fw-bold text-dark mb-3"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Aksi Cepat</h6>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <a href="{{ route('purchase-orders.index') }}" class="btn btn-primary-subtle text-primary fw-bold px-3 py-2 rounded-3 border-0">
-                                    <i class="bi bi-file-earmark-plus me-1"></i> Purchase Order
-                                </a>
-                                <a href="{{ route('deliveries.index') }}" class="btn btn-info-subtle text-info fw-bold px-3 py-2 rounded-3 border-0">
-                                    <i class="bi bi-truck me-1"></i> Surat Jalan
-                                </a>
-                                <a href="{{ route('invoices.index') }}" class="btn btn-success-subtle text-success fw-bold px-3 py-2 rounded-3 border-0">
-                                    <i class="bi bi-receipt me-1"></i> Invoice
-                                </a>
+                            <div class="d-flex flex-column gap-3">
+                                <div>
+                                    <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.7rem;">Purchase Order</div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="{{ route('purchase-orders.index') }}" class="btn btn-primary-subtle text-primary fw-bold px-3 py-2 rounded-3 border-0">
+                                            <i class="bi bi-file-earmark-plus me-1"></i> Tambah PO
+                                        </a>
+                                        <a href="{{ route('purchase-orders.index') }}" class="btn btn-outline-primary border-0 text-primary fw-semibold px-3 py-2 rounded-3 bg-white shadow-sm">
+                                            <i class="bi bi-upc-scan me-1"></i> Upload PO (OCR)
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.7rem;">Pengiriman (Surat Jalan)</div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="{{ route('deliveries.index') }}" class="btn btn-info-subtle text-info fw-bold px-3 py-2 rounded-3 border-0">
+                                            <i class="bi bi-truck me-1"></i> Tambah SJ
+                                        </a>
+                                        <a href="{{ route('deliveries.index') }}" class="btn btn-outline-info border-0 text-info fw-semibold px-3 py-2 rounded-3 bg-white shadow-sm">
+                                            <i class="bi bi-upc-scan me-1"></i> Upload SJ (OCR)
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.7rem;">Penagihan (Invoice)</div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="{{ route('invoices.index') }}" class="btn btn-success-subtle text-success fw-bold px-3 py-2 rounded-3 border-0">
+                                            <i class="bi bi-receipt me-1"></i> Tambah Invoice
+                                        </a>
+                                        <a href="{{ route('invoices.index') }}" class="btn btn-outline-success border-0 text-success fw-semibold px-3 py-2 rounded-3 bg-white shadow-sm">
+                                            <i class="bi bi-upc-scan me-1"></i> Upload Invoice (OCR)
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-8">
