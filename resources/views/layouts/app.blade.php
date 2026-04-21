@@ -225,6 +225,14 @@
             #sidebar-wrapper::-webkit-scrollbar-thumb:hover {
                 background: rgba(255,255,255,0.28);
             }
+
+            .hide-scrollbar {
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            .hide-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
         </style>
     </head>
     <body>
